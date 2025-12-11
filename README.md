@@ -2,6 +2,9 @@
 
 A FastAPI service to interact with Large Language Models (LLMs). It exposes endpoints to configure the target LLM (endpoint, model, API key) and to send prompts.
 
+<img width="1741" height="808" alt="image" src="https://github.com/user-attachments/assets/28842038-8553-4709-a277-2ab024c30087" />
+
+
 ## Setup
 1) Create and activate a virtual environment:
 ```bash
