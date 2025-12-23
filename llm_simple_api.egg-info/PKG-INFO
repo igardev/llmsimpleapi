@@ -1,0 +1,92 @@
+Metadata-Version: 2.4
+Name: llm-simple-api
+Version: 0.1.0
+Summary: A simple FastAPI service to interact with Large Language Models (LLMs).
+Author: LLM Simple API Maintainer
+License: MIT License
+        
+        Copyright (c) 2025 igardev
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/igardev/llmsimpleapi
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi==0.104.1
+Requires-Dist: uvicorn[standard]==0.24.0
+Requires-Dist: pydantic==2.5.0
+Requires-Dist: httpx==0.27.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# LLM Simple API Application
+
+A FastAPI service to interact with Large Language Models (LLMs). It exposes endpoints to configure the target LLM (endpoint, model, API key) and to send prompts.
+
+<img width="1741" height="808" alt="image" src="https://github.com/user-attachments/assets/28842038-8553-4709-a277-2ab024c30087" />
+
+
+## Setup
+1) Create and activate a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+2) Install dependencies:
+```bash
+pip install .
+```
+
+## Run
+```bash
+uvicorn main:app --reload
+```
+The server runs at `http://localhost:8000`.
+
+## Endpoints
+- `GET /` — Welcome message
+- `GET /health` — Health check
+- `POST /configure` — Update endpoint, model, and api_key (all optional)
+- `POST /configure/endpoint` — Update only endpoint
+- `POST /configure/model` — Update only model
+- `POST /configure/key` — Update only api_key
+- `GET /configure/get` — Fetch current endpoint, model, and api_key
+- `POST /ask` — Send a prompt to the configured LLM and get the response
+
+## Request Examples
+Update endpoint/model/api_key:
+```bash
+curl -X POST http://localhost:8000/configure \
+  -H "Content-Type: application/json" \
+  -d '{"endpoint": "http://127.0.0.1:8011/v1/chat/completions", "model": "gpt-4.1", "api_key": "your-key"}'
+```
+
+Ask the LLM:
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Hello, how are you?"}'
+```
+
+## Notes
+- The configuration is stored in memory; restart resets values to defaults defined in `main.py`.
+- Ensure your editor uses the project virtualenv to resolve imports and suppress linter warnings.
+
